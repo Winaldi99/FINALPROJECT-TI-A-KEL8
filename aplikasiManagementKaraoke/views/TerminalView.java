@@ -216,4 +216,25 @@ public class TerminalView implements Menus{
         }
     }
 
+    private void showDaftarLaguRuangan(int idRuangan){
+        int nums = 1;
+        ArrayList<Lagu> laguList = adminServices.getAllLagu();
+        System.out.printf("%-5s %-30s %-20s%n", "No.", "Judul", "Penyanyi");
+        System.out.println("----------------------------------------------------------");
+        for (Lagu i : laguList) {
+            if (idRuangan == i.getIdRuangan()){
+                System.out.printf("%-5d %-30s %-20s%n", nums, i.getJudul(), i.getNama());
+                nums++;
+            }
+        }
+        if (nums == 1) {
+            System.out.println("Daftar Lagu Masih belum Tersedia");
+        }
+    }
+
+    private String getStatus(boolean statusRuangan){
+        if(statusRuangan)return "Di Pesan";
+        return "Tersedia";
+    }
+
 }
