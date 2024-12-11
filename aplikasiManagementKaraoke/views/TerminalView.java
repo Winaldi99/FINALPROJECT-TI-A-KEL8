@@ -56,6 +56,7 @@ public class TerminalView implements Menus{
                     adminServices.addRuangan();
                     break;
                 case 2:
+                    showDaftarRuangan();
                     break;
                 case 3:
                     transactionServices.pesanRuangan();
@@ -73,6 +74,8 @@ public class TerminalView implements Menus{
                     lihatDaftarPutarRuangan();
                     break;
                 case 8:
+                    showDaftarRuangan();
+                    transactionServices.checkoutRuangan();
                     break;
                 case 9:
                     showPendapatan();
@@ -81,14 +84,23 @@ public class TerminalView implements Menus{
                     showTotalPenggunaanRuangan();
                     break;
                 case 11:
+                    showDaftarRuangan();
+                    adminServices.deleteRuangan();
                     break;
                 case 12:
+                    showDaftarRuangan();
+                    adminServices.editRuangan();
                     break;
                 case 13:
+                    showDaftarLagu();
+                    adminServices.editLagu();
                     break;
                 case 14:
+                    showDaftarLagu();
+                    adminServices.deleteLagu();
                     break;
                 case 15:
+                    showDaftarLagu();
                     break;
                 case 0:
                     isRunning = false;
@@ -174,6 +186,34 @@ public class TerminalView implements Menus{
             System.out.println("Ruangan Bertipe : " + i.getKey() + ", Sebanyak " + i.getValue() + " Terpakai Dari " + totalRuangan.get(i.getKey()));
         }
 
+    }
+
+    private void showDaftarRuangan(){
+        int nums = 1;
+        ArrayList<Ruangan> ruanganList = adminServices.getAllRuangan();
+        System.out.printf("%-5s %-15s %-10s %-10s %-10s%n", "No.", "Tipe", "Harga", "Id", "Status");
+        for (Ruangan i : ruanganList) {
+            System.out.printf("%-5d %-15s %-10d %-10s %-10s%n", nums, i.getTipeRuangan(), i.getHarga(), i.getIdRuangan(), getStatus(i.isStatusRuangan()));
+            nums++;
+        }
+        if (nums == 1) {
+            System.out.println("Daftar Ruangan Masih Belum Tersedia");
+        }
+
+    }
+
+    private void showDaftarLagu(){
+        int nums = 1;
+        ArrayList<Lagu> laguList = adminServices.getAllLagu();
+        System.out.printf("%-5s %-30s %-20s%n", "No.", "Judul", "Penyanyi");
+        System.out.println("----------------------------------------------------------");
+        for (Lagu i : laguList) {
+            System.out.printf("%-5d %-30s %-20s%n", nums, i.getJudul(), i.getNama());
+            nums++;
+        }
+        if (nums == 1) {
+            System.out.println("Daftar Lagu Masih belum Tersedia");
+        }
     }
 
 }
