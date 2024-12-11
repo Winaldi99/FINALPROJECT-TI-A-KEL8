@@ -19,7 +19,7 @@ public class Main {
 
     @Bean
     Database database() {
-        Database database = new Database("management_karoke", "root", "", "localhost", "3306");
+        Database database = new Database("management_karaoke", "root", "", "localhost", "3306");
         database.setup();
         return database;
     }
