@@ -7,5 +7,6 @@ import java.util.ArrayList;
 
 public interface TransactionServices {
     void pesanRuangan();
+    void checkoutRuangan();
     ArrayList<Keuntungan> getAllKeuntungan();
 }

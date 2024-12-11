@@ -35,6 +35,30 @@ public class TransactionServicesImpl implements TransactionServices{
         }
     }
 
+    @Override
+    public void checkoutRuangan() {
+        System.out.print("Masukan Id Ruangan Yang Ingin Di Checkout : ");
+        Ruangan ruangan = cariRuangan(input.nextInt());
+
+        if (ruangan.getTipeRuangan() != null && ruangan.isStatusRuangan()){
+            ruangan.setStatusRuangan(false);
+            ruanganRepository.updateRuangan(ruangan);
+
+            SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+            String strDate = date.format(new Date());
+            Keuntungan keuntungan = new Keuntungan();
+
+            keuntungan.setPenghasilan(ruangan.getHarga());
+            keuntungan.setDate(strDate);
+
+            keuntunganRepository.saveKeuntungan(keuntungan);
+        }else {
+            System.out.println("Id Ruangan Yang Anda Masukan Salah");
+        }
+
+
+    }
+
 
     private Ruangan cariRuangan(int idRuangan){
         ArrayList<Ruangan> listRuangan = ruanganRepository.fetchRuangan();
