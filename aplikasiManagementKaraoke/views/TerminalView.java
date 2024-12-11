@@ -75,8 +75,10 @@ public class TerminalView implements Menus{
                 case 8:
                     break;
                 case 9:
+                    showPendapatan();
                     break;
                 case 10:
+                    showTotalPenggunaanRuangan();
                     break;
                 case 11:
                     break;
@@ -123,6 +125,55 @@ public class TerminalView implements Menus{
         }
     }
 
+    private void showPendapatan(){
+        int nums = 1;
+        int totalPendapatan = 0;
+        ArrayList<Keuntungan> keuntunganList = transactionServices.getAllKeuntungan();
+        System.out.printf("%-5s %-10s %-15s%n", "No.", "Tanggal", "Pendapatan");
+        for (Keuntungan i : keuntunganList) {
+            System.out.printf("%-5d %-10s %-15d%n", nums, i.getDate(), i.getPenghasilan());
+            totalPendapatan += i.getPenghasilan();
+            nums++;
+        }
 
+        if (nums == 1) {
+            System.out.println("Masih Belum Ada Pendapatan Terdaftar !");
+        } else {
+            System.out.printf("Total Penghasilan : %d%n", totalPendapatan);
+        }
+    }
+
+    private void showTotalPenggunaanRuangan(){
+        Map<String,Integer> totalRuangan = new HashMap<>();
+        Map<String,Integer> totalRuanganTerpakai = new HashMap<>();
+
+        ArrayList<Ruangan>ruanganList = adminServices.getAllRuangan();
+
+        for (Ruangan i : ruanganList){
+            if (totalRuangan.containsKey(i.getTipeRuangan())){
+                int tmp = totalRuangan.get(i.getTipeRuangan());
+                tmp++;
+                totalRuangan.put(i.getTipeRuangan(),tmp);
+            }else {
+                totalRuangan.put(i.getTipeRuangan(),1);
+            }
+
+            if (totalRuanganTerpakai.containsKey(i.getTipeRuangan())){
+                if (i.isStatusRuangan()){
+                    int tmp = totalRuanganTerpakai.get(i.getTipeRuangan());
+                    tmp++;
+                    totalRuanganTerpakai.put(i.getTipeRuangan(),tmp);
+                }
+            }else {
+                totalRuanganTerpakai.put(i.getTipeRuangan(),0);
+            }
+        }
+
+        System.out.println("Daftar Penggunaan Ruangan");
+        for (Map.Entry<String,Integer> i : totalRuanganTerpakai.entrySet()){
+            System.out.println("Ruangan Bertipe : " + i.getKey() + ", Sebanyak " + i.getValue() + " Terpakai Dari " + totalRuangan.get(i.getKey()));
+        }
+
+    }
 
 }
